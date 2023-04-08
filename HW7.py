@@ -58,7 +58,7 @@ def make_players_table(data, cur, conn):
     positions = {}
     for position in cur.fetchall():
         positions[position[1]] = position[0]
-    print(positions)
+
     for player in data["squad"]:
         id = player["id"]
         name = player["name"]
@@ -132,9 +132,17 @@ def birthyear_nationality_search(age, country, cur, conn):
     # This function returns a list of tuples each containing 
     # the player’s name, position, and birth year. 
     # HINT: You'll have to use JOIN for this task.
-
 def position_birth_search(position, age, cur, conn):
-       pass
+    cur.execute(
+        "SELECT name, position, birthyear " + 
+        "FROM Players JOIN Positions " +
+        "ON Players.position_id = Positions.id " + 
+        "WHERE position = ? " + 
+        "AND birthyear > ?",
+        (position, 2023 - age)
+    )
+    
+    return cur.fetchall()
 
 
 # [EXTRA CREDIT]
@@ -234,21 +242,21 @@ class TestAllMethods(unittest.TestCase):
         self.assertEqual(c, [('Teden Mengi', 'Defence', 2002)])
     
     # test extra credit
-    def test_make_winners_table(self):
-        self.cur2.execute('SELECT * from Winners')
-        winners_list = self.cur2.fetchall()
+    # def test_make_winners_table(self):
+    #     self.cur2.execute('SELECT * from Winners')
+    #     winners_list = self.cur2.fetchall()
 
-        pass
+    #     pass
 
-    def test_make_seasons_table(self):
-        self.cur2.execute('SELECT * from Seasons')
-        seasons_list = self.cur2.fetchall()
+    # def test_make_seasons_table(self):
+    #     self.cur2.execute('SELECT * from Seasons')
+    #     seasons_list = self.cur2.fetchall()
 
-        pass
+    #     pass
 
-    def test_winners_since_search(self):
+    # def test_winners_since_search(self):
 
-        pass
+    #     pass
 
 
 def main():
