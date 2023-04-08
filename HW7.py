@@ -1,8 +1,8 @@
 
-# Your name:
-# Your student id:
-# Your email:
-# List who you have worked with on this project:
+# Your name: Daniel Wang    
+# Your student id: 7837 4231
+# Your email: wangdan@umich.edu
+# List who you have worked with on this project: N/A
 
 import unittest
 import sqlite3
@@ -51,9 +51,22 @@ def make_positions_table(data, cur, conn):
 #     To find the position_id for each player, you will have to look up 
 #     the position in the Positions table we 
 #     created for you -- see make_positions_table above for details.
-
 def make_players_table(data, cur, conn):
-    pass
+    cur.execute("DROP TABLE IF EXISTS Players")
+    cur.execute("CREATE TABLE Players (id INTEGER PRIMARY KEY, name TEXT, position_id INTEGER, birthyear INTEGER, nationality TEXT)")
+    cur.execute("SELECT * FROM Positions")
+    positions = {}
+    for position in cur.fetchall():
+        positions[position[1]] = position[0]
+    print(positions)
+    for player in data["squad"]:
+        id = player["id"]
+        name = player["name"]
+        position_id = positions[player["position"]]
+        birthyear = int(player["dateOfBirth"].split('-')[0])
+        nationality = player["nationality"]
+        cur.execute("INSERT INTO Players VALUES(?,?,?,?,?)", (id, name, position_id, birthyear, nationality))
+    conn.commit()
 
 ## [TASK 2]: 10 points
 # Finish the function nationality_search
