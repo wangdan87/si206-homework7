@@ -1,5 +1,5 @@
 
-# Your name: Daniel Wang    
+# Your name: Daniel     
 # Your student id: 7837 4231
 # Your email: wangdan@umich.edu
 # List who you have worked with on this project: N/A
